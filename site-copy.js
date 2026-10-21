@@ -63,4 +63,19 @@ window.SITE_COPY = {
       { title: "[SHORT 2]", platform: "tiktok", id: "[TIKTOK_ID_1]" },
     ],
   },
+
+  play: {
+    kicker: "PLAY",
+    heading: "Operation Little St. Nick",
+    level: "Level 1",
+    price: "Pay what you can",
+    playLabel: "PLAY",
+    playHref: "#play",
+    emailLabel: "Email",
+    emailButton: "SEND",
+    emailNote: "For the next level.",
+    endpoint: "[EMAIL_SERVICE_ENDPOINT]",
+    title: "Play — Secret 3rd Thing",
+    description: "Operation Little St. Nick. Level 1. Pay what you can.",
+  },
 };

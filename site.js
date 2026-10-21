@@ -173,10 +173,42 @@
     );
   }
 
+  function renderPlay() {
+    const play = COPY.play;
+    const input = el("input", {
+      class: "field",
+      id: "play-email",
+      type: "email",
+      name: "email",
+      required: "required",
+      autocomplete: "email",
+      inputmode: "email",
+      placeholder: "EMAIL",
+    });
+    const form = el("form", { class: "capture", method: "POST", action: play.endpoint },
+      el("label", { for: "play-email", text: play.emailLabel }),
+      input,
+      el("button", { class: "btn", type: "submit", text: play.emailButton })
+    );
+    main.append(
+      el("p", { class: "kicker", text: play.kicker }),
+      el("h1", { text: play.heading }),
+      el("p", { text: play.level }),
+      el("p", { class: "price", text: play.price }),
+      el("div", { class: "play-row", id: "play" },
+        el("a", { class: "btn", href: play.playHref, text: play.playLabel }),
+        form
+      ),
+      el("p", { class: "fine", text: play.emailNote }),
+      el("p", { class: "fine", text: "Posts to " + play.endpoint + "." })
+    );
+  }
+
   const renderers = {
     home: renderHome,
     hire: renderHire,
     watch: renderWatch,
+    play: renderPlay,
   };
 
   renderChrome();
