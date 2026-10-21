@@ -78,4 +78,19 @@ window.SITE_COPY = {
     title: "Play — Secret 3rd Thing",
     description: "Operation Little St. Nick. Level 1. Pay what you can.",
   },
+
+  submit: {
+    showOnHome: true,
+    homeLine: "Give us your A and B.",
+    kicker: "A AND B",
+    heading: "Give us your A and B. We'll make the third thing.",
+    credit: "The best submissions become intro cards and shorts, with credit.",
+    endpoint: "[FORM_ENDPOINT]",
+    aLabel: "A",
+    bLabel: "B",
+    creditLabel: "Name or handle, optional",
+    button: "SEND IT",
+    title: "Give us your A and B — Secret 3rd Thing",
+    description: "Give us your A and B. We'll make the third thing.",
+  },
 };

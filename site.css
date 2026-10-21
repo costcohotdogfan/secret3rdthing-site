@@ -290,6 +290,18 @@ h2 {
 }
 .field::placeholder { color: var(--dim); opacity: 1; }
 
+.binary, .binary-field { display: grid; gap: 8px; min-width: 0; }
+.binary { gap: 14px; }
+.binary-field {
+  color: var(--dim);
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  text-shadow: none;
+}
+.home-submit, .submit-link { color: var(--dim); text-shadow: none; }
+.home-submit a, .submit-link { color: var(--fg); }
+.submit-link { letter-spacing: 0.06em; }
+
 .noscript {
   width: min(960px, 100%);
   margin: 16px auto;

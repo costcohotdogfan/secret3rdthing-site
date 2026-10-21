@@ -39,9 +39,13 @@
 
     const footNav = el("nav", { class: "nav", "aria-label": "Doors again" });
     (COPY.doors || []).forEach(function (door) { footNav.appendChild(doorLink(door)); });
+    const extra = (COPY.submit && COPY.submit.showOnHome)
+      ? el("a", { class: "submit-link", href: root + "submit/", text: COPY.submit.homeLine })
+      : null;
+    if (extra && page === "submit") extra.setAttribute("aria-current", "page");
     footer.replaceChildren(el("div", {
       class: "site-footer-inner",
-    }, el("p", { class: "footer-mark", text: COPY.studio }), footNav));
+    }, el("p", { class: "footer-mark", text: COPY.studio }), footNav, extra));
   }
 
   function renderHome() {
@@ -60,6 +64,11 @@
       el("p", { class: "lede", text: COPY.home.lede }),
       doors
     );
+    if (COPY.submit && COPY.submit.showOnHome) {
+      main.appendChild(el("p", { class: "home-submit" },
+        el("a", { href: root + "submit/", text: COPY.submit.homeLine })
+      ));
+    }
   }
 
   function caseRow(label, value) {
@@ -204,11 +213,45 @@
     );
   }
 
+  function binaryField(id, label, name, required) {
+    const input = el("input", {
+      class: "field",
+      id: id,
+      name: name,
+      type: "text",
+      maxlength: "160",
+      autocomplete: name === "credit" ? "nickname" : "off",
+    });
+    if (required) input.setAttribute("required", "");
+    return el("label", { class: "binary-field", for: id },
+      el("span", { text: label }),
+      input
+    );
+  }
+
+  function renderSubmit() {
+    const submit = COPY.submit;
+    const form = el("form", { class: "binary", method: "POST", action: submit.endpoint },
+      binaryField("bin-a", submit.aLabel, "a", true),
+      binaryField("bin-b", submit.bLabel, "b", true),
+      binaryField("bin-credit", submit.creditLabel, "credit", false),
+      el("button", { class: "btn", type: "submit", text: submit.button })
+    );
+    main.append(
+      el("p", { class: "kicker", text: submit.kicker }),
+      el("h1", { text: submit.heading }),
+      el("p", { class: "lede", text: submit.credit }),
+      form,
+      el("p", { class: "fine", text: "Posts to " + submit.endpoint + "." })
+    );
+  }
+
   const renderers = {
     home: renderHome,
     hire: renderHire,
     watch: renderWatch,
     play: renderPlay,
+    submit: renderSubmit,
   };
 
   renderChrome();
