@@ -23,4 +23,10 @@ window.THIRD_CLOSER = [
   "> IT'S OFF THE LINE.",
 ];
 
-window.THIRD_DOMAIN = "SECRET3RDTHING.COM";
+window.THIRD_DOMAIN = "SECRET3RDTHING.CO";
+
+// Payoff button under the final card. Swap href when the game page is live.
+window.THIRD_PLAY = {
+  label: "Play Level 1 of Operation Little St. Nick — pay what you can",
+  href: "#play",
+};

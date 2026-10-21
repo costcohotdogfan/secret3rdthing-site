@@ -138,6 +138,17 @@
     btnMin.textContent = "[ ]";
     btnMin.setAttribute("aria-label", "Restore THIRD.EXE");
   }
+  const SKIP_KEY = "third.skip";
+  function skipSaved() { try { return localStorage.getItem(SKIP_KEY) === "1"; } catch (e) { return false; } }
+  function saveSkip(on) {
+    try { if (on) localStorage.setItem(SKIP_KEY, "1"); else localStorage.removeItem(SKIP_KEY); } catch (e) {}
+  }
+  function skip() {
+    RUN++; // stops any running sequence at its next sleep
+    mode = "rest";
+    T.terminalRest(stage, (window.THIRD_CARDS || [])[0] || { a: "A", b: "B" });
+    minimize();
+  }
   function restore() {
     minimized = false;
     win.classList.remove("min");
@@ -188,13 +199,19 @@
     stage = document.getElementById("third-stage");
     btnMin = document.getElementById("third-min");
     btnSnd = document.getElementById("third-snd");
+    const btnSkip = document.getElementById("third-skip");
+    const nag = document.getElementById("third-nag");
 
     T.terminalRest(stage, (window.THIRD_CARDS || [])[0] || { a: "A", b: "B" });
 
-    // While minimized, any tap restores and nothing inside reacts.
+    // While minimized, any tap restores (and replays if idle) and nothing inside reacts.
     win.addEventListener("click", (e) => {
-      if (minimized) { e.stopPropagation(); e.preventDefault(); restore(); }
+      if (minimized) { e.stopPropagation(); e.preventDefault(); restore(); if (mode === "rest") show(); }
     }, true);
+    btnSkip.addEventListener("click", (e) => { e.stopPropagation(); skip(); });
+    nag.addEventListener("click", (e) => e.stopPropagation());
+    nag.addEventListener("change", () => saveSkip(nag.checked));
+    if (skipSaved()) { nag.checked = true; minimize(); }
     stage.addEventListener("click", () => { if (mode === "rest") show(); });
     btnMin.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -207,9 +224,9 @@
       btnSnd.setAttribute("aria-pressed", String(userMuted));
     });
     document.addEventListener("keydown", (e) => {
-      if (e.target === btnMin || e.target === btnSnd) return;
+      if (e.target === btnMin || e.target === btnSnd || e.target === btnSkip || e.target === nag) return;
       if (e.key === "Escape") { if (minimized) restore(); else minimize(); return; }
-      if (mode === "rest") show();
+      if (mode === "rest" && !minimized) show();
     });
   };
 })();

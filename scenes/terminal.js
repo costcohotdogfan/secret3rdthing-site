@@ -103,7 +103,19 @@
     await ctx.type(line(term), "> " + ctx.THIRD, ctx.reduced ? 0 : 90);
     await ctx.sleep(3000);
     const t2 = mount(stage);
-    await ctx.type(line(t2, "t-big"), window.THIRD_DOMAIN || "SECRET3RDTHING.COM", ctx.reduced ? 0 : 60);
+    await ctx.type(line(t2, "t-big"), window.THIRD_DOMAIN || "SECRET3RDTHING.CO", ctx.reduced ? 0 : 60);
     ctx.sfx.beep();
+    const play = window.THIRD_PLAY;
+    if (play && play.label) {
+      await ctx.sleep(700);
+      line(t2);
+      const a = document.createElement("a");
+      a.className = "t-play";
+      a.href = play.href || "#play";
+      a.textContent = play.label;
+      line(t2).appendChild(a);
+      ctx.sfx.chime();
+      await ctx.sleep(5500);
+    }
   };
 })();

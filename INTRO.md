@@ -1,6 +1,6 @@
 # THIRD.EXE intro: hand-off notes
 
-The landing-page intro for secret3rdthing.com. It plays fullscreen, then minimizes into a small window in the bottom corner and keeps looping there while the site shows behind it. Tap the small window to bring it back.
+The landing-page intro for secret3rdthing.co. It plays fullscreen, then minimizes into a small window in the bottom corner and keeps looping there while the site shows behind it. Tap the small window to bring it back.
 
 ## Files
 - `cards.js`: the lines. **The only file to edit for new copy.** One entry per card.
@@ -15,6 +15,10 @@ The landing-page intro for secret3rdthing.com. It plays fullscreen, then minimiz
 - `tempt: true`: lingers on B before going third.
 - `slow: true`: types the options very slowly (terminal only).
 - `video: "clips/name.mp4"`: plays a real clip instead of a coded scene. This is how cards get upgraded to Seedance videos later. No other code changes needed.
+
+## Payoff and skip
+- `THIRD_PLAY` in `cards.js`: label and link for the button under the final domain card. The closer holds on it for a few seconds before minimizing.
+- SKIP (bottom-right of the fullscreen intro) jumps straight to the minimized window. Ticking DON'T SHOW AGAIN saves `third.skip` in localStorage; returning visitors start minimized and tap the small window to replay. Unticking clears it.
 
 ## Adding a scene
 Create `scenes/name.js` with `THIRD.scenes.name = async (stage, card, ctx) => { ... }`, add its script tag, then use `scene: "name"` in a card. Use `ctx.sleep(ms)` for every wait so the sequence can stop cleanly. `ctx.sfx`, `ctx.type`, `ctx.pointer` and `ctx.refuse` are there to reuse.
