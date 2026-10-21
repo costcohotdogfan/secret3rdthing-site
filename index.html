@@ -1,50 +1,63 @@
-<title>Secret Third Thing</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=Oswald:wght@500;600&family=Roboto:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="third.css">
-<style>
-  /* Demo host page only. On the real site, Grok's pages sit here behind THIRD.EXE. */
-  html, body { height: 100%; }
-  body {
-    background: var(--bg);
-    color: var(--dim);
-    font-family: var(--mono);
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
-  }
-  .site {
-    min-height: 100%;
-    display: grid;
-    place-items: center;
-    text-align: center;
-    font-size: 24px;
-    letter-spacing: 0.06em;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Secret 3rd Thing</title>
+  <meta name="description" content="Two-person game studio and content shop. Three doors: play, watch, or hire.">
+  <meta name="theme-color" content="#030603">
+  <meta property="og:site_name" content="Secret 3rd Thing">
+  <meta property="og:title" content="Secret 3rd Thing">
+  <meta property="og:description" content="Two-person game studio and content shop. Three doors: play, watch, or hire.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="share.png">
+  <meta property="og:image:alt" content="[SHARE IMAGE]">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Secret 3rd Thing">
+  <meta name="twitter:description" content="Two-person game studio and content shop. Three doors: play, watch, or hire.">
+  <meta name="twitter:image" content="share.png">
+  <meta name="twitter:image:alt" content="[SHARE IMAGE]">
+  <link rel="icon" href="share.png">
+  <!--
+    Analytics placeholder (Plausible or GoatCounter).
+    Uncomment and replace the tokens when the account exists.
+    <script defer data-domain="[ANALYTICS_DOMAIN]" src="[ANALYTICS_SRC]"></script>
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=Oswald:wght@500;600&family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="third.css">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body class="has-third" data-page="home" data-root="">
+  <header class="site-header" data-chrome="header"></header>
+  <main class="page home-page" data-page-main></main>
+  <footer class="site-footer" data-chrome="footer"></footer>
+  <noscript><p class="noscript">JavaScript is off. The doors and THIRD.EXE both need it.</p></noscript>
 
-<main class="site"><p>THE SITE LOADS HERE.<br>GROK'S DEPARTMENT.</p></main>
+  <section id="third" aria-label="THIRD.EXE intro">
+    <div class="tbar">
+      <span>THIRD.EXE</span>
+      <span class="tbar-btns">
+        <button id="third-snd" type="button" aria-pressed="false">SOUND: ON</button>
+        <button id="third-min" type="button" aria-label="Minimize THIRD.EXE">_</button>
+      </span>
+    </div>
+    <div id="third-stage"></div>
+    <div class="t-skip">
+      <label><input id="third-nag" type="checkbox"> DON'T SHOW AGAIN</label>
+      <button id="third-skip" type="button">SKIP &gt;&gt;</button>
+    </div>
+  </section>
 
-<section id="third" aria-label="THIRD.EXE intro">
-  <div class="tbar">
-    <span>THIRD.EXE</span>
-    <span class="tbar-btns">
-      <button id="third-snd" type="button" aria-pressed="false">SOUND: ON</button>
-      <button id="third-min" type="button" aria-label="Minimize THIRD.EXE">_</button>
-    </span>
-  </div>
-  <div id="third-stage"></div>
-  <div class="t-skip">
-    <label><input id="third-nag" type="checkbox"> DON'T SHOW AGAIN</label>
-    <button id="third-skip" type="button">SKIP &gt;&gt;</button>
-  </div>
-</section>
-
-<script charset="utf-8" src="cards.js"></script>
-<script charset="utf-8" src="third.js"></script>
-<script charset="utf-8" src="scenes/terminal.js"></script>
-<script charset="utf-8" src="scenes/splitflap.js"></script>
-<script charset="utf-8" src="scenes/captcha.js"></script>
-<script charset="utf-8" src="scenes/elevator.js"></script>
-<script>THIRD.start();</script>
+  <script charset="utf-8" src="site-copy.js"></script>
+  <script charset="utf-8" src="site.js"></script>
+  <script charset="utf-8" src="cards.js"></script>
+  <script charset="utf-8" src="third.js"></script>
+  <script charset="utf-8" src="scenes/terminal.js"></script>
+  <script charset="utf-8" src="scenes/splitflap.js"></script>
+  <script charset="utf-8" src="scenes/captcha.js"></script>
+  <script charset="utf-8" src="scenes/elevator.js"></script>
+  <script>THIRD.start();</script>
+</body>
+</html>
