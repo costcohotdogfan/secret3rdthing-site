@@ -1,13 +1,28 @@
 // ===== PAGE COPY =====
 // Words for the site live here. Same idea as cards.js.
-// Tokens in [BRACKETS] need a real value from the studio. Do not invent
-// brand names, numbers, or results to fill them.
 //
-// <title>, description, and social meta in each HTML file repeat the
-// strings below so link previews work without JavaScript. Change both.
+// A value that is empty, or a whole token matching [LIKE THIS], is unfilled.
+// Unfilled sections are not drawn: the hire price line, each case-study
+// block, the case-study heading when every block is unfilled, the logo
+// strip, and any watch short that has no real id. If every short is
+// unfilled, the grid is skipped and watch.empty is shown instead.
+// The contact button and the forms always render, even while their
+// endpoint is still a token. Do not invent brand names, numbers, or results.
+//
+// Social cards need an absolute image URL. baseUrl is that origin.
+// Crawlers do not run JavaScript, so og:image and twitter:image in each
+// HTML file are written out as baseUrl + share.file. Change baseUrl here
+// and those two tags in index.html, hire/, watch/, play/, and submit/
+// if the origin moves.
+//
+// <title> and description in each HTML file repeat the strings below.
+// Change both.
 window.SITE_COPY = {
   studio: "SECRET 3RD THING",
   studioTitle: "Secret 3rd Thing",
+
+  // Change this if the public origin is not the custom domain yet.
+  baseUrl: "https://secret3rdthing.co/",
 
   doors: [
     { id: "play", label: "PLAY", href: "play/", line: "Level 1." },
@@ -21,10 +36,9 @@ window.SITE_COPY = {
     description: "Two-person game studio and content shop. Three doors: play, watch, or hire.",
   },
 
-  // Share card is share.png at the site root. Alt text stays a token until a real card exists.
   share: {
     file: "share.png",
-    alt: "[SHARE IMAGE]",
+    alt: "A and B are blank. C) SECRET THIRD THING.",
   },
 
   hire: {
@@ -57,6 +71,7 @@ window.SITE_COPY = {
     title: "Watch — Secret 3rd Thing",
     description: "Shorts from Secret 3rd Thing. Newest first.",
     dek: "Newest first.",
+    empty: "First shorts drop soon. Follow along.",
     // Newest first. Put a new short at the top of this list.
     shorts: [
       { title: "[SHORT 1]", platform: "youtube", id: "[YOUTUBE_ID_1]" },

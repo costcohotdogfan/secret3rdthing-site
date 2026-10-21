@@ -78,54 +78,64 @@
     );
   }
 
+  function isBlank(value) {
+    if (value == null) return true;
+    const text = String(value).trim();
+    return text === "" || /^\[.*\]$/.test(text);
+  }
+
   function renderHire() {
     const hire = COPY.hire;
-    const pack = el("article", { class: "package" },
-      el("p", { class: "kicker", text: hire.packageKicker }),
-      el("h2", { text: hire.packageName }),
-      el("p", { class: "price", text: "starting at $" + hire.price }),
-      el("p", { text: hire.packageLine })
-    );
+    const pack = el("article", { class: "package" });
+    if (!isBlank(hire.packageKicker)) pack.appendChild(el("p", { class: "kicker", text: hire.packageKicker }));
+    if (!isBlank(hire.packageName)) pack.appendChild(el("h2", { text: hire.packageName }));
+    if (!isBlank(hire.price)) pack.appendChild(el("p", { class: "price", text: "starting at $" + hire.price }));
+    if (!isBlank(hire.packageLine)) pack.appendChild(el("p", { text: hire.packageLine }));
 
-    const cases = el("section", { class: "cases", "aria-label": hire.casesKicker },
-      el("h2", { text: hire.casesKicker })
-    );
-    hire.cases.forEach(function (item, index) {
-      cases.appendChild(el("article", { class: "case" },
-        el("p", { class: "case-index", text: String(index + 1).padStart(2, "0") }),
-        caseRow("BRAND", item.brand),
-        caseRow("THE BRIEF", item.brief),
-        caseRow("WHAT WE MADE", item.made),
-        caseRow("RESULT", item.result)
-      ));
+    const blocks = [];
+    (hire.cases || []).forEach(function (item, index) {
+      const rows = [
+        ["BRAND", item.brand],
+        ["THE BRIEF", item.brief],
+        ["WHAT WE MADE", item.made],
+        ["RESULT", item.result],
+      ].filter(function (pair) { return !isBlank(pair[1]); });
+      if (!rows.length) return;
+      const article = el("article", { class: "case" },
+        el("p", { class: "case-index", text: String(index + 1).padStart(2, "0") })
+      );
+      rows.forEach(function (pair) { article.appendChild(caseRow(pair[0], pair[1])); });
+      blocks.push(article);
     });
 
-    const logos = el("ul", { class: "logo-strip" });
-    hire.logos.forEach(function (slot) {
-      logos.appendChild(el("li", { class: "logo-slot", text: slot }));
-    });
-
+    const logos = (hire.logos || []).filter(function (slot) { return !isBlank(slot); });
     main.append(
       el("p", { class: "kicker", text: hire.kicker }),
       el("h1", { text: hire.offer }),
-      pack,
-      cases,
-      el("section", { class: "logo-block", "aria-label": hire.logosKicker },
-        el("h2", { text: hire.logosKicker }),
-        logos
-      ),
-      el("p", { class: "contact" },
-        el("a", { class: "btn", href: hire.contactHref, text: hire.contactLabel })
-      )
+      pack
     );
-  }
-
-  function isToken(value) {
-    return typeof value !== "string" || value.charAt(0) === "[";
+    if (blocks.length) {
+      const cases = el("section", { class: "cases", "aria-label": hire.casesKicker },
+        el("h2", { text: hire.casesKicker })
+      );
+      blocks.forEach(function (block) { cases.appendChild(block); });
+      main.appendChild(cases);
+    }
+    if (logos.length) {
+      const list = el("ul", { class: "logo-strip" });
+      logos.forEach(function (slot) { list.appendChild(el("li", { class: "logo-slot", text: slot })); });
+      main.appendChild(el("section", { class: "logo-block", "aria-label": hire.logosKicker },
+        el("h2", { text: hire.logosKicker }),
+        list
+      ));
+    }
+    main.appendChild(el("p", { class: "contact" },
+      el("a", { class: "btn", href: hire.contactHref, text: hire.contactLabel })
+    ));
   }
 
   function embedUrl(short) {
-    if (!short || isToken(short.id)) return "";
+    if (!short || isBlank(short.id)) return "";
     if (short.platform === "tiktok") return "https://www.tiktok.com/embed/v2/" + encodeURIComponent(short.id);
     if (short.platform === "youtube") return "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(short.id);
     return "";
@@ -147,22 +157,23 @@
 
   function renderWatch() {
     const watch = COPY.watch;
+    const shorts = (watch.shorts || []).filter(function (short) { return !isBlank(short.id); });
+    main.append(
+      el("p", { class: "kicker", text: watch.kicker }),
+      el("h1", { text: watch.heading })
+    );
+    if (!shorts.length) {
+      main.appendChild(el("p", { class: "lede", text: watch.empty }));
+      return;
+    }
     const grid = el("div", { class: "shorts" });
-    (watch.shorts || []).forEach(function (short) {
+    shorts.forEach(function (short) {
       const frame = el("div", { class: "short-frame" });
-      const card = el("article", { class: "short" },
-        el("h2", { text: short.title }),
-        el("p", { class: "fine", text: String(short.platform || "").toUpperCase() }),
-        frame
-      );
-      const src = embedUrl(short);
-      if (!src) {
-        frame.append(
-          el("p", { class: "short-hold", text: short.id || "NO EMBED YET" }),
-          el("p", { class: "fine", text: "NO EMBED YET" })
-        );
-      } else if ("IntersectionObserver" in window) {
-        frame.appendChild(el("p", { class: "short-hold", text: short.title }));
+      const card = el("article", { class: "short" });
+      if (!isBlank(short.title)) card.appendChild(el("h2", { text: short.title }));
+      if (!isBlank(short.platform)) card.appendChild(el("p", { class: "fine", text: String(short.platform).toUpperCase() }));
+      card.appendChild(frame);
+      if ("IntersectionObserver" in window) {
         const observer = new IntersectionObserver(function (entries) {
           if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
           observer.disconnect();
@@ -174,12 +185,8 @@
       }
       grid.appendChild(card);
     });
-    main.append(
-      el("p", { class: "kicker", text: watch.kicker }),
-      el("h1", { text: watch.heading }),
-      el("p", { class: "lede", text: watch.dek }),
-      grid
-    );
+    if (!isBlank(watch.dek)) main.appendChild(el("p", { class: "lede", text: watch.dek }));
+    main.appendChild(grid);
   }
 
   function renderPlay() {
@@ -208,9 +215,11 @@
         el("a", { class: "btn", href: play.playHref, text: play.playLabel }),
         form
       ),
-      el("p", { class: "fine", text: play.emailNote }),
-      el("p", { class: "fine", text: "Posts to " + play.endpoint + "." })
+      el("p", { class: "fine", text: play.emailNote })
     );
+    if (!isBlank(play.endpoint)) {
+      main.appendChild(el("p", { class: "fine", text: "Posts to " + play.endpoint + "." }));
+    }
   }
 
   function binaryField(id, label, name, required) {
@@ -241,9 +250,11 @@
       el("p", { class: "kicker", text: submit.kicker }),
       el("h1", { text: submit.heading }),
       el("p", { class: "lede", text: submit.credit }),
-      form,
-      el("p", { class: "fine", text: "Posts to " + submit.endpoint + "." })
+      form
     );
+    if (!isBlank(submit.endpoint)) {
+      main.appendChild(el("p", { class: "fine", text: "Posts to " + submit.endpoint + "." }));
+    }
   }
 
   const renderers = {
