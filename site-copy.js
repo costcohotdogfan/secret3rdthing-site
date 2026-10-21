@@ -50,4 +50,17 @@ window.SITE_COPY = {
     contactHref: "mailto:[EMAIL]",
     // contactHref: "[BOOKING LINK]",
   },
+
+  watch: {
+    kicker: "SHORTS",
+    heading: "WATCH",
+    title: "Watch — Secret 3rd Thing",
+    description: "Shorts from Secret 3rd Thing. Newest first.",
+    dek: "Newest first.",
+    // Newest first. Put a new short at the top of this list.
+    shorts: [
+      { title: "[SHORT 1]", platform: "youtube", id: "[YOUTUBE_ID_1]" },
+      { title: "[SHORT 2]", platform: "tiktok", id: "[TIKTOK_ID_1]" },
+    ],
+  },
 };

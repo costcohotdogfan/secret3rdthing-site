@@ -111,9 +111,72 @@
     );
   }
 
+  function isToken(value) {
+    return typeof value !== "string" || value.charAt(0) === "[";
+  }
+
+  function embedUrl(short) {
+    if (!short || isToken(short.id)) return "";
+    if (short.platform === "tiktok") return "https://www.tiktok.com/embed/v2/" + encodeURIComponent(short.id);
+    if (short.platform === "youtube") return "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(short.id);
+    return "";
+  }
+
+  function mountEmbed(frame, short) {
+    const src = embedUrl(short);
+    if (!src) return;
+    const iframe = el("iframe", {
+      src: src,
+      title: short.title,
+      loading: "lazy",
+      allow: "fullscreen; picture-in-picture; encrypted-media",
+      referrerpolicy: "strict-origin-when-cross-origin",
+    });
+    iframe.setAttribute("allowfullscreen", "");
+    frame.replaceChildren(iframe);
+  }
+
+  function renderWatch() {
+    const watch = COPY.watch;
+    const grid = el("div", { class: "shorts" });
+    (watch.shorts || []).forEach(function (short) {
+      const frame = el("div", { class: "short-frame" });
+      const card = el("article", { class: "short" },
+        el("h2", { text: short.title }),
+        el("p", { class: "fine", text: String(short.platform || "").toUpperCase() }),
+        frame
+      );
+      const src = embedUrl(short);
+      if (!src) {
+        frame.append(
+          el("p", { class: "short-hold", text: short.id || "NO EMBED YET" }),
+          el("p", { class: "fine", text: "NO EMBED YET" })
+        );
+      } else if ("IntersectionObserver" in window) {
+        frame.appendChild(el("p", { class: "short-hold", text: short.title }));
+        const observer = new IntersectionObserver(function (entries) {
+          if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+          observer.disconnect();
+          mountEmbed(frame, short);
+        }, { rootMargin: "200px 0px" });
+        observer.observe(card);
+      } else {
+        mountEmbed(frame, short);
+      }
+      grid.appendChild(card);
+    });
+    main.append(
+      el("p", { class: "kicker", text: watch.kicker }),
+      el("h1", { text: watch.heading }),
+      el("p", { class: "lede", text: watch.dek }),
+      grid
+    );
+  }
+
   const renderers = {
     home: renderHome,
     hire: renderHire,
+    watch: renderWatch,
   };
 
   renderChrome();
