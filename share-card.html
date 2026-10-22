@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>secret3rdthing.co share card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
+  <link rel="stylesheet" href="third.css">
+  <style>
+    html, body {
+      width: 1200px;
+      height: 630px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--mono);
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      background:
+        radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.55) 100%),
+        var(--bg);
+    }
+    .win {
+      width: 920px;
+      box-shadow: 0 0 0 2px var(--fg), 0 18px 48px rgba(0, 0, 0, 0.72), 0 0 36px var(--glow-wide);
+    }
+    .stage {
+      position: relative;
+      padding: 36px 48px 40px;
+      background: var(--bg);
+    }
+    .stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 3px);
+    }
+    .term {
+      width: max-content;
+      max-width: 100%;
+      font: 58px/1.15 var(--mono);
+      color: var(--fg);
+      text-shadow: 0 0 6px var(--glow), 0 0 22px var(--glow-wide);
+    }
+    .prompt {
+      margin: 0 0 10px;
+      color: var(--dim);
+      text-shadow: none;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 2.6ch 1fr;
+      padding: 0 0.25ch;
+    }
+    .row.sel {
+      background: var(--fg);
+      color: var(--bg);
+      text-shadow: none;
+    }
+    .domain {
+      margin: 0;
+      color: var(--dim);
+      font: 28px/1 var(--mono);
+      letter-spacing: 0.14em;
+      text-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="win">
+    <div class="tbar"><span>THIRD.EXE</span></div>
+    <div class="stage">
+      <div class="term">
+        <p class="prompt">&gt; SELECT ONE:</p>
+        <div class="row"><span>A)</span><span>___</span></div>
+        <div class="row"><span>B)</span><span>___</span></div>
+        <div class="row sel"><span>C)</span><span>SECRET THIRD THING</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="domain">secret3rdthing.co</p>
+</body>
+</html>
