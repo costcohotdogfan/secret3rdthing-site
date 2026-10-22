@@ -60,8 +60,8 @@ window.SITE_COPY = {
     logosKicker: "PAST CLIENTS",
     logos: ["[LOGO 1]", "[LOGO 2]", "[LOGO 3]", "[LOGO 4]"],
     contactLabel: "SEND THE BRIEF",
-    // One contact. mailto:[EMAIL], or replace this whole string with a [BOOKING LINK].
-    contactHref: "mailto:[EMAIL]",
+    // One contact. Or replace this whole string with a [BOOKING LINK].
+    contactHref: "mailto:hello@secret3rdthing.co?subject=Brief%3A%20",
     // contactHref: "[BOOKING LINK]",
   },
 
